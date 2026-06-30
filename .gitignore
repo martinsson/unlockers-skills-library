@@ -1,0 +1,8 @@
+# Local tool state
+.nwave/
+.DS_Store
+
+# Review output artifacts produced by the review skills
+code-review-issues.md
+complexity-review-issues.md
+testing-review-issues.md
