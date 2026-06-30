@@ -31,7 +31,6 @@ docs/        Reference documentation that the skills and agents point to
 | [`review-complexity`](skills/review-complexity/SKILL.md) | Detect accidental complexity (defensive null checks, redundant exception handling, over-engineering). |
 | [`review-testing`](skills/review-testing/SKILL.md) | Review test quality and coverage against the testing rules. |
 | [`write-tests`](skills/write-tests/SKILL.md) | Write/improve tests: fakes over mocks, whole-object assertions, short bodies. |
-| [`move-files`](skills/move-files/SKILL.md) | Relocate files/modules and update all imports without leaving re-export shims. |
 | [`quality-gate`](skills/quality-gate/SKILL.md) | Hook-based quality gate that blocks finishing while objective thresholds are violated. |
 
 ### Docs

@@ -41,7 +41,7 @@ In priority order:
 ## Allowed Changes
 - Rename variables, functions, classes.
 - Extract or inline methods.
-- Reorganize files/modules (see the [`move-files`](../skills/move-files/SKILL.md) skill).
+- Reorganize files/modules.
 - Simplify conditionals and loops.
 - Introduce helper abstractions.
 
