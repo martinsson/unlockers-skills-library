@@ -122,6 +122,63 @@ def find_user(user_id: UserId) -> User | None:
     ...
 ```
 
+#### 1.4 Guards on Collections
+
+**Principle:** there should be no conditional on a list, set, map, or other collection —
+neither to check it is non-empty before operating on it, nor to check it is empty in order
+to skip. Collection operations (iteration, filtering, exclusion, merging, summing,
+comprehensions, lookup-with-default) should already be correct no-ops for the empty case.
+If a caller needs an emptiness guard before calling a collection method, the method itself
+has a design hole — fix it there rather than guarding every call site.
+
+**Why this one can't be grepped:** emptiness guards appear in many shapes, and none of them
+mention null, so the searches in 1.1 miss this class entirely:
+
+| Language | Guard shapes |
+|----------|--------------|
+| Python | `if items:` · `if not items:` · `if len(items) > 0:` · `if items != []:` |
+| Java | `if (!items.isEmpty())` · `if (items.size() > 0)` |
+| JS/TS | `if (items.length)` · `if (!items.length)` |
+| C# | `if (items.Any())` · `if (items.Count > 0)` |
+| Go | `if len(items) > 0` |
+
+Treat this as a **design principle to reason about at every conditional whose subject is a
+collection**, not a pattern to search for.
+
+**Detection:** for each such conditional, ask — *if this collection were empty, would the
+guarded code still be correct if it simply ran anyway?* If yes, the guard is accidental
+complexity. Delete it, and if the empty case needs handling, push it into the collection
+method or type itself.
+
+**Bad — every call site pays for the empty case:**
+```python
+if excluded_ids:
+    results = results.excluding(excluded_ids)
+```
+
+**Good — the operation is a no-op on empty, so the call is unconditional:**
+```python
+class SearchResults:
+    def excluding(self, excluded_ids: set[ResultId]) -> "SearchResults":
+        if not excluded_ids:
+            return self
+        return SearchResults([r for r in self.results if r.id not in excluded_ids])
+
+# call site:
+results = results.excluding(excluded_ids)
+```
+
+The single guard inside `excluding` is not the same smell: it is one deliberate
+early-return in the type that owns the operation, replacing a guard repeated at every
+caller. Often it isn't needed at all — a filter over an empty exclusion set already returns
+everything.
+
+**When it's OK:**
+- The branches genuinely do different things, rather than one branch skipping a call that
+  would have been a no-op — e.g. choosing between two distinct code paths based on
+  collection contents.
+- Reporting emptiness to a user ("no results found") is a real behaviour, not a guard.
+
 ---
 
 ### 2. Exception Handling Complexity (Critical Priority)
@@ -553,15 +610,19 @@ class Order:
 
 | Severity | Indicators |
 |----------|------------|
-| Critical | Null checks in domain logic, optional params never used as null, exception handling masking design flaws |
+| Critical | Null checks in domain logic, emptiness guards before operations that are already safe on empty, optional params never used as null, exception handling masking design flaws |
 | Major | Multi-layer try/catch, boolean flags splitting behaviour, unnecessary delegation, feature envy, god objects |
 | Minor | Long param lists, speculative generality, unnecessary state, primitive obsession, nested conditionals |
 
 ## Detection Cheat Sheet
 
+Searching finds candidates, not findings — and one class (1.4) has no reliable search
+at all. Confirm every hit by reading the surrounding code.
+
 | Smell | What to search for |
 |-------|--------------------|
 | Null checks | `is None` / `is not None` / `!= null` / `== null` guards |
+| Collection guards | **not searchable** — reason about every conditional whose subject is a collection (see 1.4) |
 | Optional params | nullable params defaulting to null |
 | Broad catch | `except Exception` / `catch (Exception)` / bare catch |
 | Boolean flags | boolean parameters with defaults |

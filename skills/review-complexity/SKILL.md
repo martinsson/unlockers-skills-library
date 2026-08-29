@@ -38,6 +38,9 @@ the full smell catalogue with examples and detection heuristics.
 
    **Critical** (design holes):
    - Null/None checks inside domain logic
+   - Emptiness guards on collections before an operation that should already be a safe
+     no-op on empty — no reliable search exists for these, so reason about every
+     conditional whose subject is a collection (see the guide, 1.4)
    - Optional arguments that are never actually null
    - Defensive programming hiding broken contracts
 
@@ -45,6 +48,7 @@ the full smell catalogue with examples and detection heuristics.
    - Multi-layer exception handling (adapter + service + caller all catching)
    - Boolean flag parameters that split behaviour
    - Always-null optional arguments
+   - Emptiness guards around already-safe collection operations
    - Middle-man classes that just delegate
    - God objects / classes doing too much
 
@@ -66,7 +70,7 @@ the full smell catalogue with examples and detection heuristics.
 
 | Severity | Indicators |
 |----------|------------|
-| Critical | Null checks in domain logic, optional params never used as null, exception handling masking design flaws |
+| Critical | Null checks in domain logic, emptiness guards before operations already safe on empty, optional params never used as null, exception handling masking design flaws |
 | Major | Multi-layer try/catch, boolean flags splitting behaviour, unnecessary delegation, feature envy |
 | Minor | Long param lists, speculative generality, unnecessary state, primitive obsession |
 
