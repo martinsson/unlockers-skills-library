@@ -20,21 +20,13 @@ doesn't serve the domain problem.
 See [`docs/accidental-complexity-guide.md`](../../docs/accidental-complexity-guide.md) for
 the full smell catalogue with examples and detection heuristics.
 
+**Protocol:** [`docs/review-protocol.md`](../../docs/review-protocol.md) — arguments, ref resolution, severity levels, report shape. Read it first.
+
 ## Process
 
-1. **Resolve refs**
-   - If `compare_ref` is a number (PR/MR ID), resolve source/target from your platform:
-     - GitHub: `gh pr view <ID> --json headRefName,baseRefName`
-     - GitLab: `glab mr view <ID>`
-     - Azure DevOps: `az repos pr show --id <ID> --query "{source: sourceRefName, target: targetRefName}" -o json` (strip `refs/heads/`)
-     Then `git fetch origin <source>`.
-   - Otherwise use the provided `compare_ref` (or current) and `base_ref` (or `main`).
+1. **Resolve refs and gather the diff** — per [`review-protocol.md`](../../docs/review-protocol.md).
 
-2. **Gather diff**
-   - Changed source files: `git diff {base}...{compare} --name-only`
-   - Full diff: `git diff {base}...{compare}`
-
-3. **Apply the complexity lens** — for each changed file, hunt for:
+2. **Apply the complexity lens** — for each changed file, hunt for:
 
    **Critical** (design holes):
    - Null/None checks inside domain logic
@@ -59,12 +51,12 @@ the full smell catalogue with examples and detection heuristics.
    - Primitive obsession / data clumps
    - Nested conditionals (arrow anti-pattern)
 
-4. **Challenge each finding:**
+3. **Challenge each finding:**
    - Can this be removed entirely?
    - Can complexity be pushed elsewhere (up the stack, into an adapter)?
    - Is there a simpler design that eliminates the need?
 
-5. **Generate report** → `complexity-review-issues.md`
+4. **Generate report** → `complexity-review-issues.md`
 
 ## Severity Model
 

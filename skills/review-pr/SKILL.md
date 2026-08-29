@@ -16,28 +16,19 @@ Performs a comprehensive AI-powered code review of changes between refs. For dee
 passes, also run [`review-complexity`](../review-complexity/SKILL.md) and
 [`review-testing`](../review-testing/SKILL.md).
 
+**Protocol:** [`docs/review-protocol.md`](../../docs/review-protocol.md) — arguments, ref resolution, severity levels, report shape. Read it first.
+
 ## Process
 
-1. **Resolve refs**
-   - If `compare_ref` is a number (PR/MR ID), resolve source/target from your platform:
-     - GitHub: `gh pr view <ID> --json headRefName,baseRefName`
-     - GitLab: `glab mr view <ID>`
-     - Azure DevOps: `az repos pr show --id <ID> --query "{source: sourceRefName, target: targetRefName}" -o json` (strip `refs/heads/`)
-     Then `git fetch origin <source>`.
-   - Otherwise use the provided `compare_ref` (or current branch) and `base_ref` (or `main`).
+1. **Resolve refs and gather the diff** — per [`review-protocol.md`](../../docs/review-protocol.md).
 
-2. **Gather context**
-   - Commit history: `git log --oneline {base}..{compare}`
-   - Diffstat: `git diff {base}...{compare} --stat`
-   - Full diff: `git diff {base}...{compare}`
-
-3. **Analyze changes**
+2. **Analyze changes**
    - Review all modified files for bugs, design issues, and quality problems.
    - Evaluate test coverage, identify security concerns, assess architectural decisions.
 
-4. **Categorize issues by severity** (Critical / Major / Minor — see criteria below).
+3. **Categorize issues by severity** (Critical / Major / Minor — see criteria below).
 
-5. **Generate report** → `code-review-issues.md` with file locations, line numbers, clear
+4. **Generate report** → `code-review-issues.md` with file locations, line numbers, clear
    problem descriptions, concrete fixes, and summary statistics.
 
 ## Review Criteria

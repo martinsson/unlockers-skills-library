@@ -18,20 +18,13 @@ improve our testing quality?
 **Rules:** [`docs/testing-rules.md`](../../docs/testing-rules.md) —
 **Reviewer tips:** [`docs/testing-review-guide.md`](../../docs/testing-review-guide.md)
 
+**Protocol:** [`docs/review-protocol.md`](../../docs/review-protocol.md) — arguments, ref resolution, severity levels, report shape. Read it first.
+
 ## Process
 
-1. **Resolve refs**
-   - If `compare_ref` is a number (PR/MR ID), resolve source/target from your platform:
-     - GitHub: `gh pr view <ID> --json headRefName,baseRefName`
-     - GitLab: `glab mr view <ID>` (read source/target branch)
-     - Azure DevOps: `az repos pr show --id <ID> --query "{source: sourceRefName, target: targetRefName}" -o json` (strip `refs/heads/`)
-     Then `git fetch origin <source>`.
-   - Otherwise use the provided `compare_ref` (or current branch) and `base_ref` (or `main`).
+1. **Resolve refs and gather the diff** — per [`review-protocol.md`](../../docs/review-protocol.md).
 
-2. **Gather changes**
-   - Changed files: `git diff {base}...{compare} --name-only`
-   - Full diff: `git diff {base}...{compare}`
-   - Identify: (a) new/modified test files, (b) new/modified production code.
+2. **Split the diff** into (a) new/modified test files, (b) new/modified production code.
 
 3. **Review test files** — check each against the criteria in the guide:
    - No mocks — No fixed sleeps — Naming convention — Parametrize/table-drive appropriately
