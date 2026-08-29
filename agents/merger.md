@@ -16,7 +16,9 @@ Handles the full lifecycle of getting a PR merged: push, enable auto-merge, moni
 and escalate.
 
 > **Platform note:** commands below use GitHub's `gh` CLI. The logic is platform-agnostic —
-> for GitLab substitute `glab mr ...`, for Azure DevOps substitute `az repos pr ...`. Replace
+> for GitLab substitute `glab mr ...`, for Azure DevOps use the
+> [`azure-devops-pr`](../skills/azure-devops-pr/SKILL.md) skill, which wraps the same
+> operations (`az repos pr ...`) as scripts. Replace
 > the test/lint commands (`<run tests>`, `<run linters>`) with your project's equivalents
 > (e.g. `pytest`, `npm test`, `mvn verify`, `go test ./...`). The default base branch here is
 > `main`; change it to match your project (`develop`, `next`, …).

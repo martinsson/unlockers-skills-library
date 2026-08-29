@@ -3,10 +3,14 @@
 A reusable library of **agent definitions**, **skills**, and the **documentation** they
 reference — for code review, testing discipline, refactoring, and getting PRs merged.
 
-Everything here is written to be **language-agnostic**: examples are concrete (mostly
-Python), but the rules, smells, and workflows apply to any language and test framework.
-Git-platform commands default to GitHub's `gh` CLI, with notes for GitLab (`glab`) and
-Azure DevOps (`az`).
+**Examples are Python. The rules are not.** Nothing here is tied to Python except the code
+in the examples, and translating an example is something an agent does well on request —
+so the examples stay short and concrete rather than being written five times. Git-platform
+commands default to GitHub's `gh` CLI, with GitLab (`glab`) and Azure DevOps (`az`) noted
+where they differ; the one skill that cannot be generalised says so in its name.
+
+[`AGENTS.md`](AGENTS.md) is the map — read that first if you are an agent working here, or
+a human deciding where something new belongs.
 
 ## Layout
 
@@ -23,43 +27,68 @@ docs/        Reference documentation that the skills and agents point to
 | [`merger`](agents/merger.md) | Full PR merge lifecycle: push, enable auto-merge, monitor CI and reviews, fix, rebase on conflicts, escalate to human approval. |
 | [`refactor`](agents/refactor.md) | Clean-code refactoring specialist — restructures without changing behaviour. |
 
-### Skills
+### Review skills
+
+All seven share one contract — arguments, ref resolution, severity levels, report shape —
+documented once in [`docs/review-protocol.md`](docs/review-protocol.md). Each skill below
+adds a single lens. They are read-only: they report, they do not fix.
+
+| Skill | Lens | Report |
+|-------|------|--------|
+| [`review-pr`](skills/review-pr/SKILL.md) | Catch-all: bugs, design, security, coverage in one pass | `code-review-issues.md` |
+| [`review-complexity`](skills/review-complexity/SKILL.md) | Accidental complexity — defensive checks, redundant exception handling, over-engineering | `complexity-review-issues.md` |
+| [`review-testing`](skills/review-testing/SKILL.md) | Test quality and coverage | `testing-review-issues.md` |
+| [`review-architecture`](skills/review-architecture/SKILL.md) | Boundaries, seams, dependency direction | `architecture-review-issues.md` |
+| [`review-coherence`](skills/review-coherence/SKILL.md) | Fit with the conventions already in the repo | `coherence-review-issues.md` |
+| [`review-security`](skills/review-security/SKILL.md) | Secrets, injection, authz, crypto, dependencies | `security-review-issues.md` |
+| [`review-impact`](skills/review-impact/SKILL.md) | Blast radius; which suites must pass — run this *before* pushing | `impact-analysis.md` |
+
+`review-pr` alone is enough for a small change. For anything substantial the focused passes
+find more than the catch-all does, and they run in parallel.
+
+### Other skills
 
 | Skill | What it does |
 |-------|--------------|
-| [`review-pr`](skills/review-pr/SKILL.md) | Comprehensive code review of a branch/PR — bugs, design, security, coverage. |
-| [`review-complexity`](skills/review-complexity/SKILL.md) | Detect accidental complexity (defensive null checks, redundant exception handling, over-engineering). |
-| [`review-testing`](skills/review-testing/SKILL.md) | Review test quality and coverage against the testing rules. |
-| [`write-tests`](skills/write-tests/SKILL.md) | Write/improve tests: fakes over mocks, whole-object assertions, short bodies. |
-| [`quality-gate`](skills/quality-gate/SKILL.md) | Hook-based quality gate that blocks finishing while objective thresholds are violated. |
+| [`write-tests`](skills/write-tests/SKILL.md) | Write or improve tests: fakes over mocks, whole-object assertions, short bodies. |
+| [`adapter-contract-testing`](skills/adapter-contract-testing/SKILL.md) | Hold a fake and its real adapter to one shared contract, so the fake cannot drift. |
+| [`bugszero-root-cause`](skills/bugszero-root-cause/SKILL.md) | Fix a bug by removing the design weakness that allowed it, not just the symptom. |
+| [`quality-gate`](skills/quality-gate/SKILL.md) | Hook-based gate that blocks finishing while objective thresholds are violated. |
+| [`azure-devops-pr`](skills/azure-devops-pr/SKILL.md) | **Azure DevOps only.** PR review threads, replies, follow-up work items, auto-complete. Ships its own scripts. |
 
 ### Docs
 
 | Doc | Referenced by |
 |-----|----------------|
+| [`review-protocol.md`](docs/review-protocol.md) | every `review-*` skill |
 | [`testing-rules.md`](docs/testing-rules.md) | `write-tests`, `review-testing` |
 | [`testing-review-guide.md`](docs/testing-review-guide.md) | `review-testing` |
+| [`adapter-contract-testing.md`](docs/adapter-contract-testing.md) | `adapter-contract-testing` |
 | [`accidental-complexity-guide.md`](docs/accidental-complexity-guide.md) | `review-complexity`, `refactor` |
-| [`bugfix-workflow.md`](docs/bugfix-workflow.md) | `write-tests`, testing rules |
+| [`bugfix-workflow.md`](docs/bugfix-workflow.md) | `write-tests`, `bugszero-root-cause`, testing rules |
+| [`bugszero-root-cause.md`](docs/bugszero-root-cause.md) | `bugszero-root-cause` |
 | [`feature-workflow.md`](docs/feature-workflow.md) | feature development |
-| [`design-patterns.md`](docs/design-patterns.md) | general reference |
+| [`design-patterns.md`](docs/design-patterns.md) | `refactor`, `review-architecture` |
 
 ## Using It with Claude Code
 
 These are plain Markdown definitions. To use them in a project:
 
-- **Agents:** copy a file from `agents/` into your project's `.claude/agents/` (or your
-  user-level `~/.claude/agents/`).
+- **Agents:** copy a file from `agents/` into `.claude/agents/` (or `~/.claude/agents/`).
 - **Skills:** copy a directory from `skills/` into `.claude/skills/`. Each contains a
-  `SKILL.md`; some (like `quality-gate`) also ship hook scripts and config.
-- **Docs:** copy the `docs/` files alongside, and keep the relative links intact, or adjust
-  the paths to wherever you place them.
+  `SKILL.md`; some (`quality-gate`, `azure-devops-pr`) also ship scripts and config.
+- **Docs:** copy `docs/` alongside and keep the relative links intact, or adjust the paths.
 
-The review skills and the merger agent take an optional PR/MR number or branch as an
-argument and default to the current branch against `main`.
+The review skills and the merger agent take an optional PR/MR number or branch and default
+to the current branch against `main`.
+
+Skills that reference "the project's conventions doc" mean whatever your repo uses —
+`AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`. `review-coherence` in particular is inert
+without one: it deliberately has no rule list of its own.
 
 ## Sources
 
-Distilled and made language-agnostic from real project agent/skill definitions (testing
-rules, the testing and complexity reviewers, the merger agent, and a hook-based quality
-gate).
+Distilled from real project agent and skill definitions and made project-neutral. The
+methodology notes behind `bugszero-root-cause` and the 3P legacy approach are
+[Johan Martinsson's](https://martinsson-johan.blogspot.com/); BugsZero is Arlo Belshee's,
+via the [BugsZero Kata](https://github.com/martinsson/BugsZero-Kata).
