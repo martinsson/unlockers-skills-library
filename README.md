@@ -53,6 +53,7 @@ find more than the catch-all does, and they run in parallel.
 | [`write-tests`](skills/write-tests/SKILL.md) | Write or improve tests: fakes over mocks, whole-object assertions, short bodies. |
 | [`adapter-contract-testing`](skills/adapter-contract-testing/SKILL.md) | Hold a fake and its real adapter to one shared contract, so the fake cannot drift. |
 | [`bugszero-root-cause`](skills/bugszero-root-cause/SKILL.md) | Fix a bug by removing the design weakness that allowed it, not just the symptom. |
+| [`legacy-3p`](skills/legacy-3p/SKILL.md) | Change legacy code in order: Protect with characterization tests, Prepare by refactoring, Produce with TDD. |
 | [`quality-gate`](skills/quality-gate/SKILL.md) | Hook-based gate that blocks finishing while objective thresholds are violated. |
 | [`azure-devops-pr`](skills/azure-devops-pr/SKILL.md) | **Azure DevOps only.** PR review threads, replies, follow-up work items, auto-complete. Ships its own scripts. |
 
@@ -67,6 +68,7 @@ find more than the catch-all does, and they run in parallel.
 | [`accidental-complexity-guide.md`](docs/accidental-complexity-guide.md) | `review-complexity`, `refactor` |
 | [`bugfix-workflow.md`](docs/bugfix-workflow.md) | `write-tests`, `bugszero-root-cause`, testing rules |
 | [`bugszero-root-cause.md`](docs/bugszero-root-cause.md) | `bugszero-root-cause` |
+| [`3p-protect-prepare-produce.md`](docs/3p-protect-prepare-produce.md) | `legacy-3p` |
 | [`feature-workflow.md`](docs/feature-workflow.md) | feature development |
 | [`design-patterns.md`](docs/design-patterns.md) | `refactor`, `review-architecture` |
 
