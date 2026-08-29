@@ -1,8 +1,8 @@
 # Testing Review Guide
 
 Tips for conducting a testing review on a PR/MR diff. The rules themselves live in
-[`testing-rules.md`](testing-rules.md). Patterns below are shown for several languages;
-adapt the search terms to your stack.
+[`testing-rules.md`](testing-rules.md). Search terms below are Python; see the note on
+language in the README.
 
 ## Quick Scan — Red Flags in the Diff
 
@@ -10,15 +10,13 @@ Patterns that are almost always a violation:
 
 | Search for | Violation |
 |------------|-----------|
-| `unittest.mock`, `pytest_mock`, `@patch(`, `mocker.patch`, `Mock()`, `MagicMock()` | Mocking (Python) |
-| `Mockito`, `@Mock`, `mock(`, `when(...).thenReturn` | Mocking (Java) |
-| `jest.mock`, `vi.mock`, `sinon.stub`, `.mockReturnValue` | Mocking (JS/TS) |
-| `time.sleep(`, `Thread.sleep(`, `setTimeout`, `await delay(` (value > 0) | Fixed sleep |
+| `unittest.mock`, `pytest_mock`, `@patch(`, `mocker.patch`, `Mock()`, `MagicMock()` | Mocking |
+| `time.sleep(`, `asyncio.sleep(` (value > 0) | Fixed sleep |
 | test names not matching `given_…_when_…_then_…` | Naming violation |
 | multiple `assert result.<attr>` lines | Asserting individual attributes |
-| copy-pasted test bodies with minor edits | Should be parametrized / table-driven |
+| copy-pasted test bodies with minor edits | Should be parametrized |
 | `test_has_…` / `test_is_…` style names | Likely trivial |
-| asserting a bare `false` | Use an explicit failure with a message |
+| `assert False` | Use an explicit failure with a message |
 
 ## What to Check for Each Changed Production File
 

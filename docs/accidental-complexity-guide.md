@@ -131,16 +131,10 @@ comprehensions, lookup-with-default) should already be correct no-ops for the em
 If a caller needs an emptiness guard before calling a collection method, the method itself
 has a design hole — fix it there rather than guarding every call site.
 
-**Why this one can't be grepped:** emptiness guards appear in many shapes, and none of them
-mention null, so the searches in 1.1 miss this class entirely:
-
-| Language | Guard shapes |
-|----------|--------------|
-| Python | `if items:` · `if not items:` · `if len(items) > 0:` · `if items != []:` |
-| Java | `if (!items.isEmpty())` · `if (items.size() > 0)` |
-| JS/TS | `if (items.length)` · `if (!items.length)` |
-| C# | `if (items.Any())` · `if (items.Count > 0)` |
-| Go | `if len(items) > 0` |
+**Why this one can't be searched:** emptiness guards take many shapes — `if items:`,
+`if not items:`, `if len(items) > 0:`, `if items != []:` — and none of them mention `None`,
+so the searches in 1.1 miss this class entirely. Other languages have their own shapes
+(`isEmpty()`, `.length`, `.Any()`); the principle is the same everywhere.
 
 Treat this as a **design principle to reason about at every conditional whose subject is a
 collection**, not a pattern to search for.

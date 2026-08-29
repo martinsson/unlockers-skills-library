@@ -1,23 +1,21 @@
 # Testing Rules
 
-Language-agnostic rules for writing tests that read like specifications and stay
-cheap to maintain. Code examples are written in Python for concreteness, but every
-rule applies to any language and test framework (pytest, JUnit, Jest/Vitest, xUnit,
-RSpec, Go's `testing`, …). Adapt the syntax, keep the principle.
+Rules for writing tests that read like specifications and stay cheap to maintain.
+Examples are Python; the rules are not — see the note on language in the README.
 
 **For bug fixes, see [`bugfix-workflow.md`](bugfix-workflow.md) — always write a failing test before fixing.**
 
 ## 0. Key Principles
 
-- **Prefer fakes/simulators over mocking frameworks.** Avoid `unittest.mock` / Mockito /
-  Jest mocks / Moq / Sinon where a hand-written fake would do. See §1.
+- **Prefer fakes/simulators over mocking frameworks.** Avoid `unittest.mock` and its
+  equivalents where a hand-written fake would do. See §1.
 - Test one thing per test function.
 - Use a naming pattern that states intent: `given_<context>_when_<action>_then_<result>`.
 - **Assert the whole object when possible** (`assert obj == ExpectedObj(...)`), not a
   scatter of individual attributes. For generated fields (IDs, timestamps), copy them
   from the actual object: `assert obj == Expected(id=obj.id, ...)`.
-- Place tests in the conventional location for your stack (`tests/`, `src/test/...`,
-  `*_test.go`, `*.spec.ts`, …) and mirror the production structure.
+- Place tests in the conventional location for your stack and mirror the production
+  structure.
 - Drive tests through the project's test runner, never an ad-hoc `main`/script entry point.
 - Don't add redundant prose to assertions. Just write `assert x == 5`.
 - Don't write trivial tests that only exercise the language or a library.
