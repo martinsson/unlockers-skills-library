@@ -53,7 +53,7 @@ find more than the catch-all does, and they run in parallel.
 | [`adapter-contract-testing`](skills/adapter-contract-testing/SKILL.md) | Hold a fake and its real adapter to one shared contract, so the fake cannot drift. |
 | [`bugszero-root-cause`](skills/bugszero-root-cause/SKILL.md) | Fix a bug by removing the design weakness that allowed it, not just the symptom. |
 | [`legacy-3p`](skills/legacy-3p/SKILL.md) | Change legacy code in order: Protect with characterization tests, Prepare by refactoring, Produce with TDD. |
-| [`quality-gate`](skills/quality-gate/SKILL.md) | Hook-based gate that blocks finishing while objective thresholds are violated. |
+| [`quality-gate`](skills/quality-gate/SKILL.md) | Objective thresholds as a backstop for when review nudges don't land. Final CI stage, Claude Code hook, or both. |
 | [`azure-devops-pr`](skills/azure-devops-pr/SKILL.md) | **Azure DevOps only.** PR review threads, replies, follow-up work items, auto-complete. Ships its own scripts. |
 
 ### Docs

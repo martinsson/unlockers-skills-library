@@ -46,8 +46,13 @@ changing behaviour, guided by
 **Landing it.** [`agents/merger`](agents/merger.md) owns the merge lifecycle.
 [`skills/azure-devops-pr`](skills/azure-devops-pr/SKILL.md) is the Azure DevOps
 implementation of the PR-host operations it needs.
-[`skills/quality-gate`](skills/quality-gate/SKILL.md) blocks finishing while objective
-thresholds are violated.
+
+**The backstop.** Everything above nudges: reviewers report and hope, agents improve what
+they are pointed at. [`skills/quality-gate`](skills/quality-gate/SKILL.md) is what runs when
+the nudges do not land — objective thresholds against the codebase as it stands, last in
+CI, catching the drift that accumulates when every individual review was right to pass.
+It is the only thing here that reads the code rather than the diff, and the only thing that
+cannot be reasoned with.
 
 ## Conventions for content
 
