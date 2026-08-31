@@ -94,7 +94,6 @@ Close with a summary line: `X Critical, Y Major, Z Minor` and a one-paragraph ve
 | [`review-complexity`](../skills/review-complexity/SKILL.md) | Accidental complexity | `complexity-review-issues.md` |
 | [`review-testing`](../skills/review-testing/SKILL.md) | Test quality and coverage | `testing-review-issues.md` |
 | [`review-architecture`](../skills/review-architecture/SKILL.md) | Boundaries, seams, dependency direction | `architecture-review-issues.md` |
-| [`review-coherence`](../skills/review-coherence/SKILL.md) | Fit with existing conventions | `coherence-review-issues.md` |
 | [`review-security`](../skills/review-security/SKILL.md) | Secrets, injection, authz, crypto, deps | `security-review-issues.md` |
 | [`review-impact`](../skills/review-impact/SKILL.md) | Blast radius; which suites must pass | `impact-analysis.md` |
 
