@@ -10,7 +10,9 @@ commands default to GitHub's `gh` CLI, with GitLab (`glab`) and Azure DevOps (`a
 where they differ; the one skill that cannot be generalised says so in its name.
 
 [`AGENTS.md`](AGENTS.md) is the map — read that first if you are an agent working here, or
-a human deciding where something new belongs.
+a human deciding where something new belongs. [`diagrams/`](diagrams/) has the visual
+version: the [merger's lifecycle](diagrams/merger-lifecycle.md) and
+[how the pieces relate](diagrams/library-map.md).
 
 ## Layout
 

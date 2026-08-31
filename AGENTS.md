@@ -16,6 +16,10 @@ Three kinds of file, and the distinction matters when adding one:
 | `agents/` | Autonomous task-performers with their own loop and stopping condition | Runs unattended for many steps and decides when it is done |
 | `skills/` | Task-scoped capabilities invoked for one job | Has an obvious "I am now doing X" trigger |
 | `docs/` | Knowledge that more than one skill needs | Two or more things link to it, or would if it existed |
+| `diagrams/` | Visual companions, for humans | It would be weight in a file an agent reads |
+
+Diagrams stay in `diagrams/` and out of the skills and docs: those are read by agents, where
+prose is the working format. If a diagram and the prose disagree, the prose is right.
 
 A rule that only one skill uses belongs in that skill. A rule two skills use belongs in
 `docs/` — otherwise the copies drift, which is exactly how the review protocol ended up
