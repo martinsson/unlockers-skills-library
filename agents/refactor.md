@@ -16,6 +16,10 @@ external behaviour*. This applies in any language.
 ## Primary Responsibilities
 - Identify code smells (duplication, long functions, large classes, tight coupling) — see
   [`docs/accidental-complexity-guide.md`](../docs/accidental-complexity-guide.md).
+- Move code towards the target shape in
+  [`docs/code-design-rules.md`](../docs/code-design-rules.md) — wrap primitives, give data
+  clumps behaviour and immutability — and, in a hexagonal codebase,
+  [`docs/hexagonal-architecture-rules.md`](../docs/hexagonal-architecture-rules.md).
 - Reduce cognitive complexity.
 - Improve naming and structure.
 - Extract functions, classes, and modules where appropriate.
@@ -25,6 +29,8 @@ external behaviour*. This applies in any language.
 
 ## Refactoring Principles
 In priority order:
+0. **Types before structure** — before moving anything between layers, check whether the
+   primitives have types and the data clumps have behaviour. Cheapest change, most leverage.
 1. **Behaviour Preservation** — do not change observable behaviour.
 2. **Clarity Over Cleverness.**
 3. **Small, Composable Units.**

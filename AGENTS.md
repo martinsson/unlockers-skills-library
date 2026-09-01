@@ -39,6 +39,11 @@ there before reading any individual reviewer.
 [`skills/adapter-contract-testing`](skills/adapter-contract-testing/SKILL.md) covers the
 risk the no-mocks rule creates — a fake that has drifted from what it stands in for.
 
+**Deciding what to build.** [`skills/scope-challenge`](skills/scope-challenge/SKILL.md)
+runs at the front of feature work: a very short PRD, then reductions offered to the user
+before anything is built. It questions *what*; the feature workflow's slicing step then
+handles *how*.
+
 **Changing code.** [`docs/bugfix-workflow.md`](docs/bugfix-workflow.md) and
 [`docs/feature-workflow.md`](docs/feature-workflow.md) are the defaults, both test-first.
 [`skills/bugszero-root-cause`](skills/bugszero-root-cause/SKILL.md) is the escalation when a
@@ -46,6 +51,15 @@ bug is the second of its kind. [`agents/refactor`](agents/refactor.md) restructu
 changing behaviour, guided by
 [`docs/accidental-complexity-guide.md`](docs/accidental-complexity-guide.md) and
 [`docs/design-patterns.md`](docs/design-patterns.md).
+
+**Design rules.** Two pages, split on the axis they act on.
+[`docs/code-design-rules.md`](docs/code-design-rules.md) is about types — value objects over
+primitives, behaviour on data clumps, exceptions left to propagate.
+[`docs/hexagonal-architecture-rules.md`](docs/hexagonal-architecture-rules.md) is about
+layers — thin controllers, deciding split from applying, transactional side effects. The
+code-design rules come first: they are cheaper and they carry more. Both state the target
+shape; `accidental-complexity-guide.md` stays the catalogue of what to look for and how to
+find it, so a rule and its smell live in different files on purpose.
 
 **Landing it.** [`agents/merger`](agents/merger.md) owns the merge lifecycle.
 [`skills/azure-devops-pr`](skills/azure-devops-pr/SKILL.md) is the Azure DevOps

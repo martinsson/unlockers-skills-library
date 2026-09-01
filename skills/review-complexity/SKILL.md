@@ -18,7 +18,10 @@ doesn't serve the domain problem.
 ## Reference
 
 See [`docs/accidental-complexity-guide.md`](../../docs/accidental-complexity-guide.md) for
-the full smell catalogue with examples and detection heuristics.
+the full smell catalogue with examples and detection heuristics, and
+[`docs/code-design-rules.md`](../../docs/code-design-rules.md) for the shape a suggestion
+should point at — a missing value object or a missing behaviour-bearing type is behind more
+of these smells than any other single cause.
 
 **Protocol:** [`docs/review-protocol.md`](../../docs/review-protocol.md) — arguments, ref resolution, severity levels, report shape. Read it first.
 

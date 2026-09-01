@@ -18,8 +18,10 @@ right place, and can this be extended without infrastructure leaking into the do
 **Protocol:** [`docs/review-protocol.md`](../../docs/review-protocol.md) — arguments, ref resolution, severity levels, report shape. Read it first.
 
 **Also read:** the project's conventions doc (`AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`
-— whichever exists) and [`docs/design-patterns.md`](../../docs/design-patterns.md). If the
-project keeps ADRs or design specs, check whether an active one constrains the touched area.
+— whichever exists), [`docs/design-patterns.md`](../../docs/design-patterns.md) and
+[`docs/hexagonal-architecture-rules.md`](../../docs/hexagonal-architecture-rules.md) — the
+latter only where the codebase is actually hexagonal (see step 2). If the project keeps ADRs
+or design specs, check whether an active one constrains the touched area.
 
 ## Process
 
@@ -57,6 +59,12 @@ project keeps ADRs or design specs, check whether an active one constrains the t
    - Behaviour that obviously belongs on an entity pushed into a service (anaemic model)
    - Config object threaded through many layers instead of injecting the resolved value
    - New public API duplicating an abstraction that already exists nearby
+   - Multiple side effects with no transaction and no stated decision to go without one —
+     ask what state is left behind when the second write fails after the first succeeded
+   - Controller doing more than a few lines of work instead of delegating to a use case
+   - A use case interleaving reads, decisions and writes past the signals in
+     [`hexagonal-architecture-rules.md`](../../docs/hexagonal-architecture-rules.md) rule 2
+     — three functional cases, a second catch, a second read-port or write-port call
 
    **Minor** (alignment):
    - Module in the wrong folder for what it actually is (adapter living under services)
@@ -75,7 +83,7 @@ project keeps ADRs or design specs, check whether an active one constrains the t
 | Severity | Indicators |
 |----------|------------|
 | Critical | Hard boundary violation; direct infrastructure call in domain; abstraction bypassed |
-| Major | Missing seam or port; optional collaborator; god class; cross-context leakage; config tunnelling |
+| Major | Missing seam or port; optional collaborator; god class; cross-context leakage; config tunnelling; untransacted multiple side effects; deciding and applying interleaved |
 | Minor | Misplaced module; naming drift; missing export |
 
 ## Output Format

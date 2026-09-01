@@ -177,6 +177,10 @@ everything.
 
 ### 2. Exception Handling Complexity (Critical Priority)
 
+> **The default strategy is to not catch at all** — let the exception reach the top and be
+> turned into an error there. Everything below is about the cases that deviate from it. See
+> [`code-design-rules.md`](code-design-rules.md) rule 3.
+
 #### 2.1 Multi-Layer Exception Handling
 
 **Smell:** The same exception is caught at multiple layers (adapter → service → controller).
@@ -268,6 +272,17 @@ except SpecificNetworkError as e:
 **Why it's bad:** Adds a try/catch block that does nothing useful. If you're not
 translating or enriching, don't catch.
 
+#### 2.4 A Catch Standing In for a Missing Type
+
+**Smell:** the exception is thrown deep in the domain because an illegal value got that far,
+and a `try` is added where it surfaces.
+
+**Why it's bad:** it treats a construction-time problem as a runtime one, at every site that
+handles the value rather than the one that creates it.
+
+**Good:** reject the value in its own type instead — see
+[`code-design-rules.md`](code-design-rules.md) rules 1 and 3.
+
 ---
 
 ## General Code Smells
@@ -337,6 +352,10 @@ def create_order(request: OrderRequest) -> Order:
 
 ### 5. Primitive Obsession
 
+> Minor as a *review finding*, first as a *refactoring move* — see
+> [`code-design-rules.md`](code-design-rules.md) rule 1 for why this and §6 are what to
+> reach for before anything structural.
+
 **Smell:** Using primitive types (str, int) for domain concepts.
 
 **Why it's bad:** No type safety, no place for behaviour, easy to mix up parameters of the
@@ -366,6 +385,9 @@ def transfer(source: AccountId, destination: AccountId, amount: Money) -> None:
 ```
 
 ### 6. Data Clumps
+
+> The positive version of this — where the type lives, and why it is immutable — is
+> [`code-design-rules.md`](code-design-rules.md) rule 2.
 
 **Smell:** The same group of parameters/fields appears together in multiple places.
 

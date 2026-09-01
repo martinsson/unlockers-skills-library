@@ -11,10 +11,12 @@ Everything in the library sits somewhere on the path from *deciding to change co
 flowchart TB
     subgraph W [" Deciding what to write "]
         direction LR
+        SC[scope-challenge]
         BF[bugfix-workflow]
         FF[feature-workflow]
         BZ[bugszero-root-cause]
         L3P[legacy-3p]
+        SC -->|agreed scope| FF
         BF -.->|second bug<br/>of its kind| BZ
         FF -.->|can't start:<br/>no tests, no seams| L3P
     end
@@ -102,14 +104,23 @@ flowchart LR
     ACTD[adapter-contract-testing.md] --> ACT[adapter-contract-testing]
     ACG[accidental-complexity-guide.md] --> RC[review-complexity]
     ACG --> RF[refactor]
+    CDR[code-design-rules.md] --> RC
+    CDR --> RF
+    HAR[hexagonal-architecture-rules.md] --> RA[review-architecture]
+    HAR --> RF
     DP[design-patterns.md] --> RF
-    DP --> RA[review-architecture]
+    DP --> RA
     BFD[bugfix-workflow.md] --> WT
     BFD --> BZS[bugszero-root-cause]
     BZD[bugszero-root-cause.md] --> BZS
     P3[3p-protect-prepare-produce.md] --> L3[legacy-3p]
     FW[feature-workflow.md] --> L3
 ```
+
+The two rules pages and the complexity guide are the same knowledge from two directions:
+the rules say what the code should look like, the guide says what to search for and how bad
+it is when you find it. Keeping them apart is what stops the guide turning into a style
+manifesto and the rules into a second, drifting catalogue.
 
 One consequence worth stating: **`legacy-3p`'s Protect tests deliberately violate
 `testing-rules.md`.** They are quick-and-dirty scaffolding, most of them deleted in Prepare.

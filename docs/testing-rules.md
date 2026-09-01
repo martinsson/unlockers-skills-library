@@ -38,6 +38,13 @@ Example:
 **Why:** mocks couple tests to *how* code calls collaborators; fakes let you assert
 *what* the system actually does. Tests survive refactors.
 
+**How far they reach:** business tests cover the *entire* inner hexagon — use case and
+domain — with the ports faked at the boundary, including cases where one use case
+orchestrates several services. Given no business logic in the controller and none in the
+repository, that makes them the complete record of the business rules; a rule they cannot
+reach is a rule sitting in the wrong layer. See
+[`hexagonal-architecture-rules.md`](hexagonal-architecture-rules.md).
+
 ## 2. Keep Tests Short with Clear Business Intent
 
 - Tests have **hard limits**: **≤ 10 statements** and **≤ 15 lines** in the test body.

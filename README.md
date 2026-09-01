@@ -55,6 +55,7 @@ find more than the catch-all does, and they run in parallel.
 | [`adapter-contract-testing`](skills/adapter-contract-testing/SKILL.md) | Hold a fake and its real adapter to one shared contract, so the fake cannot drift. |
 | [`bugszero-root-cause`](skills/bugszero-root-cause/SKILL.md) | Fix a bug by removing the design weakness that allowed it, not just the symptom. |
 | [`legacy-3p`](skills/legacy-3p/SKILL.md) | Change legacy code in order: Protect with characterization tests, Prepare by refactoring, Produce with TDD. |
+| [`scope-challenge`](skills/scope-challenge/SKILL.md) | Capture a feature request as a very short PRD, then challenge it for the smallest valuable scope before building. |
 | [`quality-gate`](skills/quality-gate/SKILL.md) | Objective thresholds as a backstop for when review nudges don't land. Final CI stage, Claude Code hook, or both. |
 | [`azure-devops-pr`](skills/azure-devops-pr/SKILL.md) | **Azure DevOps only.** PR review threads, replies, follow-up work items, auto-complete. Ships its own scripts. |
 
@@ -67,10 +68,12 @@ find more than the catch-all does, and they run in parallel.
 | [`testing-review-guide.md`](docs/testing-review-guide.md) | `review-testing` |
 | [`adapter-contract-testing.md`](docs/adapter-contract-testing.md) | `adapter-contract-testing` |
 | [`accidental-complexity-guide.md`](docs/accidental-complexity-guide.md) | `review-complexity`, `refactor` |
+| [`code-design-rules.md`](docs/code-design-rules.md) | `refactor`, `review-complexity`, feature development |
+| [`hexagonal-architecture-rules.md`](docs/hexagonal-architecture-rules.md) | `review-architecture`, `refactor`, testing rules |
 | [`bugfix-workflow.md`](docs/bugfix-workflow.md) | `write-tests`, `bugszero-root-cause`, testing rules |
 | [`bugszero-root-cause.md`](docs/bugszero-root-cause.md) | `bugszero-root-cause` |
 | [`3p-protect-prepare-produce.md`](docs/3p-protect-prepare-produce.md) | `legacy-3p` |
-| [`feature-workflow.md`](docs/feature-workflow.md) | feature development |
+| [`feature-workflow.md`](docs/feature-workflow.md) | feature development, `scope-challenge` |
 | [`design-patterns.md`](docs/design-patterns.md) | `refactor`, `review-architecture` |
 
 ## Using It with Claude Code
